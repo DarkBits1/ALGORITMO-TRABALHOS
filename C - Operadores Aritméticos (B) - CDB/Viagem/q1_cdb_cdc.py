@@ -1,23 +1,42 @@
-Leia, Interprete e faça um simulador para o seguinte problema (Contexto Adaptado).
-Os bancos captam dinheiro para suas operações por meio de CDBs (Certificado de
-Depósito Bancário), dentre outras formas. Por outro lado, eles fazem empréstimos
-aos seus clientes em operações ditas CDC (Crédito Direto ao Consumidor).
-Para o CDB o cliente do Banco receberá uma recompensa pelo investimento com
-taxa de juros sobre valor entre 1% e 20% (ao ano), por exemplo, aplicada em Juros
-Compostos (desconsidere IR - Imposto de Renda).
-Já o CDC é um valor percentual geralmente entre 1% e 17% (ao mês), a depender do
-tipo do empréstimo, em Juros Compostos. O Cliente paga o CDC mensalmente em
-parcelas iguais. Os prazos comuns são 24x, 36x e até 60x.
-O Lucro do Banco é o Juros dos Empréstimos descontado o quanto ele pagará de
-Juros para os Investidores de CDB. Considerando as afirmações acima, faça um
-SIMULADOR de CDB e em conjunto um Simulador de CDC (Empréstimo) do mesmo
-valor captado. Para o CDB, solicite os dados necessários, identifique quais pelo
-contexto.
-Em seguida, calcule quanto o Banco irá pagar (Valor Investido + Juros CDB) para o
-Investidor ao final do período escolhido. Exemplo: Um CDB de vencimento 2035, tem
-um prazo de 10 anos. 2035 - 2025.
-Já no empréstimo, pergunte os demais dados necessários para simular um
-empréstimo e mostre quanto o Cliente CDC irá pagar de Juros ao todo para o Banco.
-Mostre também o valor das Parcelas. E o montante total a pagar.
-Por fim, faça um resumo sobre o Lucro do Banco com as transações de CDB e CDC.
-Incluindo todos os dados das duas operações.
+import math
+
+def cdb_calculo():
+     investimento = float(input('Insira o valor que deseja investir: '))
+     juros = float(input('Insira a taxa de juros anual(entre 1 e 20 %): '))
+     tempo = int(input('Você deixará o dinheiro por quantos anos?: '))
+     montante = investimento * (1 + (juros / 100)) ** tempo
+     juros_cdb = montante - investimento
+     
+     print(f"\nVALOR QUE O BANCO IRÁ TER QUE PAGAR PARA O INVESTIDOR: R${montante:.2f}")
+     print(f"VALOR TOTAL DOS JUROS: R${juros_cdb:.2f}\n")
+
+     return juros_cdb
+
+
+def cdc_calculo():
+     emprestimo = float(input('Insira o valor que deseja pedir de empréstimo: '))
+     juros_cdc = float(input('Insira o valor do juros mensal(1 a 17%): '))
+     tempo_meses = int(input('Insira o número de parcelas: '))
+     montante_cdc = emprestimo * (1 + (juros_cdc / 100)) ** tempo_meses
+     juros_total_cdc = montante_cdc - emprestimo
+     parcela_cdc_valor = (emprestimo * (juros_cdc / 100) * (1 + (juros_cdc / 100)) ** tempo_meses) / ((1 + (juros_cdc / 100)) ** tempo_meses - 1)
+
+     resultado = f"""
+        VALOR TOTAL DE JUROS QUE TERÁ QUE PAGAR: R${juros_total_cdc:.2f}
+
+        VALOR DE CADA PARCELA: R${parcela_cdc_valor:.2f}
+        
+        VALOR TOTAL A PAGAR: R${montante_cdc:.2f}
+
+         """
+     print(resultado)
+
+
+     return juros_total_cdc
+
+
+juros_cdb = cdb_calculo()
+juros_cdc = cdc_calculo()
+
+lucro_banco = juros_cdc - juros_cdb
+print(f'O valor que o banco irá lucrar é: R${lucro_banco:.2f}')
