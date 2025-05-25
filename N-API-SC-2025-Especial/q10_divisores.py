@@ -1,3 +1,6 @@
+#INICIO : 12:10 25/05/2025
+#FINAL: 12:51 25/05/2025
+
 def main():
   a = int(input('Valor de A > '))
   b = int(input('Valor de B > '))
